@@ -1,0 +1,80 @@
+@use '../../node_modules/@angular/material/index' as mat;
+@use 'sass:map';
+
+$light-theme: mat.m2-define-light-theme(
+  (
+    color: (
+      primary: mat.m2-define-palette(mat.$m2-indigo-palette),
+      accent: mat.m2-define-palette(mat.$m2-pink-palette),
+    ),
+    typography: mat.m2-define-typography-config(),
+    density: 0,
+  )
+);
+
+$dark-theme: mat.m2-define-dark-theme(
+  (
+    color: (
+      primary: mat.m2-define-palette(mat.$m2-red-palette),
+      accent: mat.m2-define-palette(mat.$m2-blue-gray-palette),
+    ),
+    typography: mat.m2-define-typography-config(),
+    density: 0,
+  )
+);
+
+/// Gets the CSS property and it's computed value for both light and dark themes.
+/// @param {String} $property The css property to set. ex: background, color, background-color, border-color etc.
+/// @param {String} $color Theme color. Accepted values are: primary, accent, or warn.
+/// @param {String | Number} $hue The hue from the palette to use. If this is a value between 0 and 1, it will be treated as opacity.
+/// @returns {CssProperty} CSS property with it's computed value for the both light and dark themes.
+@mixin get-theme-color-property($property, $color, $hue: null) {
+  $light-color-config: mat.m2-get-color-config($light-theme);
+  $light-color-palette: map.get($light-color-config, $color);
+  $dark-color-config: mat.m2-get-color-config($dark-theme);
+  $dark-color-palette: map.get($dark-color-config, $color);
+
+  @if $hue {
+    $light-color: mat.m2-get-color-from-palette($light-color-palette, $hue);
+    $dark-color: mat.m2-get-color-from-palette($dark-color-palette, $hue);
+
+    & {
+      #{$property}: $light-color;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #{$property}: $dark-color;
+    }
+  } @else {
+    $light-color: mat.m2-get-color-from-palette($light-color-palette);
+    $dark-color: mat.m2-get-color-from-palette($dark-color-palette);
+
+    & {
+      #{$property}: $light-color;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #{$property}: $dark-color;
+    }
+  }
+}
+
+@mixin get-background-color-property($property, $color) {
+  & {
+    #{$property}: map.get(mat.$m2-light-theme-background-palette, $color);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    #{$property}: map.get(mat.$m2-dark-theme-background-palette, $color);
+  }
+}
+
+@mixin get-foreground-color-property($property, $color) {
+  & {
+    #{$property}: map.get(mat.$m2-light-theme-foreground-palette, $color);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    #{$property}: map.get(mat.$m2-dark-theme-foreground-palette, $color);
+  }
+}

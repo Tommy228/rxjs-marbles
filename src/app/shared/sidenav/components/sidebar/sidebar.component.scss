@@ -1,0 +1,71 @@
+@use '../../../../../../node_modules/sass-rem/index' as rem;
+@use '../../../../../../node_modules/@angular/material/index' as mat;
+@use '../../../../../sass/themes' as themes;
+
+$typography: mat.m2-define-typography-config();
+
+:host {
+  display: block;
+  padding: rem.convert(20px) rem.convert(10px);
+}
+
+.sidebar {
+  height: 100%;
+  border-radius: 0;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    padding: 0;
+    align-self: center;
+  }
+
+  &__divider {
+    @include themes.get-foreground-color-property(background-color, base);
+
+    margin-bottom: rem.convert(30px);
+  }
+
+  &__sub-item {
+    @include mat.m2-typography-level($typography, 'body-1');
+    @include themes.get-foreground-color-property(color, text);
+  }
+
+  &__item {
+    @include themes.get-foreground-color-property(color, text);
+    @include mat.m2-typography-level($typography, 'headline-6');
+
+    padding: 0;
+    margin: rem.convert(10px) 0;
+  }
+}
+
+.example {
+  &--hidden {
+    display: none;
+  }
+
+  &--selected {
+    &::before {
+      background-color: transparent !important;
+    }
+
+    @include themes.get-background-color-property(
+      background-color,
+      focused-button
+    );
+  }
+}
+
+.content {
+  height: calc(100vh - 98px);
+  border-radius: 10px;
+  margin: rem.convert(16px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  color: lightgray;
+}

@@ -1,0 +1,18 @@
+@use '@angular/material' as mat;
+@use 'sass-rem' as rem;
+@use '../../../../../sass/themes' as themes;
+
+.timeline-completion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  &__bar {
+    height: 100%;
+    width: rem.convert(2px);
+
+    @include themes.get-foreground-color-property(background-color, base);
+  }
+}

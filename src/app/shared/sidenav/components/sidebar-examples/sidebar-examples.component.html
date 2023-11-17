@@ -1,0 +1,15 @@
+<mat-nav-list>
+  @for (example of examples(); track trackByExampleName($index, example)) {
+  <a
+    [attr.data-example-name]="example.name.toLocaleLowerCase()"
+    mat-list-item
+    [routerLink]="['/', example.name]"
+    [routerLinkActive]="['example--selected']"
+    class="example"
+  >
+    <span class="sidebar__sub-item">
+      {{ example.name }}
+    </span>
+  </a>
+  }
+</mat-nav-list>

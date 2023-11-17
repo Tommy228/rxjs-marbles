@@ -1,0 +1,27 @@
+@use '../../../../../sass/themes' as themes;
+@use 'sass-rem' as rem;
+@use '@angular/material' as mat;
+
+$typography: mat.m2-define-typography-config();
+
+.title {
+  @include themes.get-theme-color-property(color, primary, 500);
+  @include mat.m2-typography-level($typography, 'headline-5');
+
+  margin-bottom: rem.convert(10px);
+}
+
+.divider {
+  @include themes.get-theme-color-property(background-color, primary, 500);
+
+  margin-bottom: rem.convert(20px);
+}
+
+.description {
+  @include themes.get-foreground-color-property(color, text);
+  @include mat.m2-typography-level($typography, 'body-1');
+}
+
+.documentation-link {
+  margin-bottom: rem.convert(20px);
+}

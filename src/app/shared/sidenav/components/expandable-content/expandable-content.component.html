@@ -1,0 +1,20 @@
+<div
+  class="expandable-content-header"
+  (click)="toggle()"
+>
+  <mat-icon
+    fontIcon="chevron_right"
+    [@rotateIcon]="$iconRotationAnimationState()"
+    [@.disabled]="$animationDisabled()"
+  />
+  <ng-content select="[header]" />
+</div>
+
+<div
+  [@openClose]="$openCloseAnimationState()"
+  (@openClose.start)="animationStarted()"
+  (@openClose.done)="animationDone()"
+  [@.disabled]="$animationDisabled()"
+>
+  <ng-content />
+</div>

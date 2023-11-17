@@ -1,0 +1,26 @@
+<h1
+  class="title"
+  data-title
+>
+  {{ currentExample$()?.name }}
+</h1>
+
+<mat-divider class="divider" />
+
+<p
+  class="description"
+  data-description
+>
+  {{ currentExample$()?.description }}
+</p>
+
+<a
+  data-documentation-link
+  class="documentation-link"
+  mat-raised-button
+  rel="noopener noreferrer"
+  target="_blank"
+  [href]="currentExample$()?.linkToDocumentation"
+>
+  Read more
+</a>
