@@ -51,7 +51,7 @@
     "@angular/compiler-cli": "^17.0.3",
     "@ngneat/spectator": "^15.0.1",
     "@types/jest": "^29.5.8",
-    "@types/lodash-es": "^4.17.6",
+    "@types/lodash-es": "^4.17.11",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
     "eslint": "^8.53.0",
