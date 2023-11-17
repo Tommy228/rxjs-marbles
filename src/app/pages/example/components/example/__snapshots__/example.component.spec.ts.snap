@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExampleComponent should set the inputs and outputs corresponding to the current example 1`] = `
+[
+  {
+    "color": "color1",
+    "frame": 0,
+    "id": 0,
+    "type": 0,
+    "value": "A",
+  },
+  {
+    "color": "color2",
+    "frame": 3,
+    "id": 1,
+    "type": 0,
+    "value": "B",
+  },
+  {
+    "color": "color3",
+    "frame": 6,
+    "id": 2,
+    "type": 0,
+    "value": "C",
+  },
+]
+`;
+
+exports[`ExampleComponent should set the inputs and outputs corresponding to the current example 2`] = `
+[
+  {
+    "color": "color4",
+    "frame": 0,
+    "id": 0,
+    "type": 0,
+    "value": 1,
+  },
+  {
+    "color": "color5",
+    "frame": 12,
+    "id": 1,
+    "type": 0,
+    "value": 2,
+  },
+  {
+    "color": "color6",
+    "frame": 24,
+    "id": 2,
+    "type": 0,
+    "value": 3,
+  },
+  {
+    "frame": 28,
+    "id": 3,
+    "type": 1,
+  },
+]
+`;
+
+exports[`ExampleComponent should set the inputs and outputs corresponding to the current example 3`] = `
+[
+  {
+    "color": "color7",
+    "frame": 0,
+    "id": 0,
+    "type": 0,
+    "value": "A1",
+  },
+  {
+    "color": "color8",
+    "frame": 3,
+    "id": 1,
+    "type": 0,
+    "value": "B1",
+  },
+  {
+    "color": "color9",
+    "frame": 6,
+    "id": 2,
+    "type": 0,
+    "value": "C1",
+  },
+  {
+    "color": "color1",
+    "frame": 12,
+    "id": 3,
+    "type": 0,
+    "value": "A2",
+  },
+  {
+    "color": "color2",
+    "frame": 15,
+    "id": 4,
+    "type": 0,
+    "value": "B2",
+  },
+  {
+    "color": "color3",
+    "frame": 18,
+    "id": 5,
+    "type": 0,
+    "value": "C2",
+  },
+  {
+    "color": "color4",
+    "frame": 24,
+    "id": 6,
+    "type": 0,
+    "value": "A3",
+  },
+  {
+    "color": "color5",
+    "frame": 27,
+    "id": 7,
+    "type": 0,
+    "value": "B3",
+  },
+  {
+    "color": "color6",
+    "frame": 30,
+    "id": 8,
+    "type": 0,
+    "value": "C3",
+  },
+]
+`;
+
+exports[`ExampleComponent should update the inputs and outputs when an input changes 1`] = `
+[
+  {
+    "color": "color7",
+    "frame": 5,
+    "id": 0,
+    "type": 0,
+    "value": "A1",
+  },
+  {
+    "color": "color1",
+    "frame": 17,
+    "id": 1,
+    "type": 0,
+    "value": "A2",
+  },
+  {
+    "color": "color4",
+    "frame": 29,
+    "id": 2,
+    "type": 0,
+    "value": "A3",
+  },
+  {
+    "frame": 100,
+    "id": 3,
+    "type": 1,
+  },
+]
+`;

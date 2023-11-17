@@ -1,0 +1,81 @@
+<div
+  class="timeline"
+  (resized)="onResize()"
+  data-timeline
+>
+  @if (hasName) {
+    <div class="timeline__name">
+      {{ name }}
+    </div>
+  }
+
+  <div
+    class="timeline__line timeline-line"
+    #timelineLine
+    data-timeline-line
+  >
+    <svg
+      class="timeline-line-drawing"
+      viewBox="0 0 50 50"
+      preserveAspectRatio="none"
+    >
+      <line
+        class="timeline-line-drawing__line"
+        x1="0"
+        y1="25"
+        x2="50"
+        y2="25"
+        stroke-width="1"
+      ></line>
+    </svg>
+
+    @for (element of elements ?? []; track element) {
+      @if (element | guardType: isValue; as valueElement) {
+        <app-timeline-value
+          class="timeline-value"
+          [ngClass]="'timeline-value--' + getElementColor(valueElement)"
+          [value]="valueElement.value"
+          [isDraggable]="isDraggable ?? true"
+          cdkDrag
+          [cdkDragDisabled]="!isDraggable"
+          [cdkDragLockAxis]="'x'"
+          [cdkDragBoundary]="timelineLine"
+          (cdkDragMoved)="onDragMoved($event, valueElement)"
+          [cdkDragFreeDragPosition]="getForcedDragPosition(element)!"
+        />
+      }
+
+      @if (element | guardType: isCompletion; as completionElement) {
+        <app-timeline-completion
+          class="timeline-completion"
+          cdkDrag
+          [cdkDragDisabled]="!isDraggable"
+          [cdkDragLockAxis]="'x'"
+          [cdkDragBoundary]="timelineLine"
+          (cdkDragMoved)="onDragMoved($event, completionElement)"
+          [cdkDragFreeDragPosition]="getForcedDragPosition(element)!"
+        />
+      }
+    }
+  </div>
+
+  <svg
+    class="timeline-arrow-drawing"
+    viewBox="0 0 40 50"
+    preserveAspectRatio="none"
+  >
+    <line
+      class="timeline-arrow-drawing__line"
+      x1="0"
+      y1="25"
+      x2="20"
+      y2="25"
+      stroke-width="1"
+    ></line>
+    <polygon
+      class="timeline-arrow-drawing__polygon"
+      points="20,15 40,25 20,35"
+      fill="black"
+    ></polygon>
+  </svg>
+</div>

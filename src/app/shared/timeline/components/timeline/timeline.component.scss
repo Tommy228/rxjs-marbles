@@ -1,0 +1,138 @@
+@use 'sass-rem' as rem;
+@use '../../../../../sass/themes' as themes;
+@use '../../../../../sass/breakpoints' as breakpoints;
+@use '@angular/material' as mat;
+@use 'sass:map';
+
+$value-size: rem.convert(40px);
+$completion-height: rem.convert(50px);
+$typography: mat.define-typography-config();
+
+.canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.timeline {
+  position: relative;
+  display: flex;
+  height: rem.convert(70px);
+  width: 100%;
+
+  @media screen and (max-width: breakpoints.$main-breakpoint) {
+    height: rem.convert(50px);
+  }
+
+  &__line {
+    flex-grow: 1;
+  }
+
+  &__name {
+    display: flex;
+    align-items: center;
+    width: rem.convert(50px);
+    font-family: monospace;
+    font-size: rem.convert(20px);
+
+    @include themes.get-foreground-color-property(color, text);
+  }
+}
+
+.timeline-line {
+  position: relative;
+}
+
+.timeline-line-drawing {
+  width: 100%;
+  height: 100%;
+
+  &--border {
+    width: rem.convert(30px);
+  }
+
+  &__line {
+    @include themes.get-foreground-color-property(stroke, base);
+  }
+}
+
+.timeline-arrow-drawing {
+  width: 50px;
+
+  &__line {
+    @include themes.get-foreground-color-property(stroke, base);
+  }
+
+  &__polygon {
+    @include themes.get-foreground-color-property(fill, base);
+  }
+}
+
+.timeline-value {
+  @mixin timeline-value-size($size) {
+    width: $size;
+    height: $size;
+    top: calc(50% - #{$size} / 2);
+  }
+
+  display: block;
+  position: absolute;
+  left: 0;
+  z-index: 4;
+
+  @include timeline-value-size($value-size);
+
+  @media screen and (max-width: breakpoints.$main-breakpoint) {
+    @include timeline-value-size(calc(#{$value-size} / 1.5));
+  }
+
+  @mixin timeline-value-color($index, $color) {
+    &--color#{$index} {
+      --timeline-value-color: #{$color};
+    }
+  }
+
+  @include timeline-value-color(1, map.get(mat.$red-palette, 500));
+  @include timeline-value-color(2, map.get(mat.$blue-palette, 500));
+  @include timeline-value-color(3, map.get(mat.$green-palette, 500));
+  @include timeline-value-color(4, map.get(mat.$amber-palette, 500));
+  @include timeline-value-color(5, map.get(mat.$purple-palette, 300));
+  @include timeline-value-color(6, map.get(mat.$indigo-palette, 200));
+  @include timeline-value-color(7, map.get(mat.$cyan-palette, 500));
+  @include timeline-value-color(8, map.get(mat.$orange-palette, 500));
+  @include timeline-value-color(9, map.get(mat.$lime-palette, 500));
+
+  @media (prefers-color-scheme: dark) {
+    @include timeline-value-color(1, map.get(mat.$red-palette, 800));
+    @include timeline-value-color(2, map.get(mat.$blue-palette, 800));
+    @include timeline-value-color(3, map.get(mat.$green-palette, 800));
+    @include timeline-value-color(4, map.get(mat.$amber-palette, 800));
+    @include timeline-value-color(5, map.get(mat.$purple-palette, 800));
+    @include timeline-value-color(6, map.get(mat.$indigo-palette, 800));
+    @include timeline-value-color(7, map.get(mat.$cyan-palette, 800));
+    @include timeline-value-color(8, map.get(mat.$orange-palette, 800));
+    @include timeline-value-color(9, map.get(mat.$lime-palette, 800));
+  }
+}
+
+.timeline-completion {
+  @mixin timeline-completion-size($val-size, $comp-height) {
+    width: $val-size;
+    height: $comp-height;
+    top: calc(50% - #{$comp-height} / 2);
+  }
+
+  display: block;
+  position: absolute;
+
+  @include timeline-completion-size($value-size, $completion-height);
+
+  left: 0;
+  z-index: 3;
+
+  @media screen and (max-width: breakpoints.$main-breakpoint) {
+    @include timeline-completion-size(
+      calc(#{$value-size} / 1.5),
+      calc(#{$completion-height} / 1.5)
+    );
+  }
+}

@@ -1,0 +1,14 @@
+@use '../../../../../sass/themes' as themes;
+
+.example {
+  &--selected {
+    &::before {
+      background-color: transparent !important;
+    }
+
+    @include themes.get-background-color-property(
+      background-color,
+      focused-button
+    );
+  }
+}

@@ -1,0 +1,15 @@
+@use 'sass-rem' as rem;
+
+.code {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: rem.convert(20px);
+
+  &--multiline {
+    white-space: pre-wrap;
+    text-align: left;
+    margin: auto;
+    width: fit-content;
+  }
+}

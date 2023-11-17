@@ -1,0 +1,31 @@
+<div class="sidebar">
+  <mat-form-field>
+    <input
+      id="operator-search"
+      type="text"
+      matInput
+      (keyup)="searchChange($event.target)"
+      placeholder="Search"
+    />
+  </mat-form-field>
+
+  @if (!$searching()) {
+    @for (category of categories; track trackByCategoryName($index, category)) {
+      <app-expandable-content
+        [appAutoExpandCategory]="category"
+        [attr.data-category-name]="category.name.toLocaleLowerCase()"
+      >
+        <h3
+          header
+          class="sidebar__item"
+        >
+          {{ category.name }}
+        </h3>
+
+        <app-sidebar-examples [examples]="category.examples" />
+      </app-expandable-content>
+    }
+  } @else {
+    <app-sidebar-examples [examples]="$searchResult()" />
+  }
+</div>

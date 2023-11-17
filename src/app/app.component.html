@@ -1,0 +1,34 @@
+<div class="main">
+  <mat-toolbar class="toolbar">
+    <button
+      mat-icon-button
+      (click)="sidenav.toggle()"
+      class="toolbar__sandwich-menu"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <h1 class="toolbar__title">RxJS Marbles</h1>
+    <h3 class="toolbar__subtitle">Interactive diagrams of RxJS Observables</h3>
+    <app-github-link class="toolbar__github-link" />
+  </mat-toolbar>
+
+  <mat-sidenav-container class="main-container">
+    <mat-sidenav
+      #sidenav
+      [opened]="$sideNavOpen()"
+      [mode]="'side'"
+      [position]="'start'"
+      appSidenavAutomaticMode
+      class="main-container__sidenav"
+    >
+      <app-sidebar />
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <mat-card class="main-container__content">
+        <router-outlet />
+      </mat-card>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

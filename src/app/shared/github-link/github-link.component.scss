@@ -1,0 +1,5 @@
+@use '@angular/material' as mat;
+
+.github-link {
+  @include mat.elevation(0);
+}

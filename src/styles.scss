@@ -1,0 +1,19 @@
+@use '@angular/material' as mat;
+@use 'sass/themes' as themes;
+@include mat.core;
+
+html,
+body {
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+@include mat.all-component-themes(themes.$light-theme);
+
+@media (prefers-color-scheme: dark) {
+  @include mat.all-component-colors(themes.$dark-theme);
+}

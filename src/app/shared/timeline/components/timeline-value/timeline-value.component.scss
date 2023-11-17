@@ -1,0 +1,30 @@
+@use '@angular/material' as mat;
+@use 'sass-rem' as rem;
+@use '../../../../../sass/themes' as themes;
+@use 'sass:map';
+
+.timeline-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: rem.convert(1px) solid;
+  text-align: center;
+  white-space: nowrap;
+
+  @include themes.get-foreground-color-property(border-color, base);
+
+  background-color: var(--timeline-value-color, white);
+
+  @include themes.get-foreground-color-property(color, text);
+
+  &--draggable {
+    cursor: move;
+
+    &:hover {
+      @include mat.elevation(4);
+    }
+  }
+}

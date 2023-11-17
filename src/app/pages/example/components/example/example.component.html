@@ -1,0 +1,35 @@
+<app-example-header />
+
+<mat-card class="timelines-container">
+  @for (
+    elements of $currentTimelineElements();
+    track elements;
+    let index = $index
+  ) {
+    <app-timeline
+      [elements]="elements"
+      [colorsMap]="$currentColorMap()"
+      (elementsChange)="elementsChanged(index, $event)"
+      [maxFrames]="MAX_FRAMES"
+      [hasName]="$isMultiInput()"
+      [name]="index | timelineInputName"
+    />
+  }
+
+  @if ($currentExample()?.label; as label) {
+    <mat-card class="code-card">
+      <app-highlighted-code
+        class="code-card__code hljs"
+        [code]="label"
+      />
+    </mat-card>
+  }
+
+  <app-timeline
+    [elements]="$output()"
+    [colorsMap]="$currentColorMap()"
+    [isDraggable]="false"
+    [maxFrames]="MAX_FRAMES"
+    [hasName]="$isMultiInput()"
+  />
+</mat-card>

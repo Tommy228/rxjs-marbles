@@ -1,0 +1,44 @@
+@use '../../../../../sass/themes' as themes;
+@use 'sass-rem' as rem;
+@use '../../../../../../node_modules/@angular/material/index' as mat;
+@use '../../../../../sass/breakpoints' as breakpoints;
+
+$typography: mat.define-typography-config();
+
+.timelines-container {
+  @include mat.elevation(3);
+
+  padding: rem.convert(20px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: rem.convert(20px);
+}
+
+.code-card {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 0;
+  overflow: hidden;
+
+  @include mat.elevation(2);
+  @include themes.get-foreground-color-property(color, text);
+
+  &__code {
+    width: 100%;
+    height: 100%;
+
+    $typography: mat.define-typography-config();
+
+    @include mat.typography-level($typography, 'headline-5');
+
+    @media screen and (max-width: breakpoints.$main-breakpoint) {
+      @include mat.typography-level($typography, 'headline-6');
+    }
+
+    @media screen and (max-width: breakpoints.$tiny-breakpoint) {
+      @include mat.typography-level($typography, 'body-1');
+    }
+  }
+}
