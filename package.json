@@ -48,7 +48,7 @@
     "@angular-eslint/schematics": "^17.0.1",
     "@angular-eslint/template-parser": "^17.0.1",
     "@angular/cli": "~17.0.0",
-    "@angular/compiler-cli": "^17.0.2",
+    "@angular/compiler-cli": "^17.0.3",
     "@ngneat/spectator": "^15.0.1",
     "@types/jest": "^29.5.8",
     "@types/lodash-es": "^4.17.6",
