@@ -8,7 +8,7 @@
     "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "jest",
-    "test:ci": "jest --ci --collectCoverage",
+    "test:ci": "jest --ci --collectCoverage --bail",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "format": "prettier --check \"./**/*.(ts|html|scss)\"",

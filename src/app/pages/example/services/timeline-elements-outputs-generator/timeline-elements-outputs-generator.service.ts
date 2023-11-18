@@ -25,6 +25,7 @@ export class TimelineElementsOutputsGenerator {
     maxFrames: number,
   ): TimelineElement[] {
     const scheduler = new VirtualTimeScheduler(undefined, maxFrames + 1);
+
     const outputStream$ = this.generateOutputStream$(
       timelineElements,
       scheduler,
@@ -32,21 +33,35 @@ export class TimelineElementsOutputsGenerator {
       colorsMap,
       maxFrames,
     );
+
     let elements: TimelineElement[] = [];
+
+    const addElement = (factory: (frame: number) => TimelineElement): void => {
+      const frame = scheduler.now();
+      if (frame <= maxFrames) {
+        elements.push(factory(frame));
+      }
+    };
+
     outputStream$.subscribe({
       next: (actualElements) => (elements = actualElements),
-      complete: () => {
-        const frame = scheduler.now();
-        if (frame <= maxFrames) {
-          elements.push({
-            type: TimelineElementType.Completion,
-            frame: frame,
-            id: elements.length,
-          });
-        }
-      },
+      complete: () =>
+        addElement((frame) => ({
+          type: TimelineElementType.Completion,
+          frame,
+          id: elements.length,
+        })),
+      error: (error) =>
+        addElement((frame) => ({
+          type: TimelineElementType.Error,
+          frame: frame,
+          id: elements.length,
+          value: error,
+        })),
     });
+
     scheduler.flush();
+
     return elements;
   }
 
@@ -97,6 +112,8 @@ export class TimelineElementsOutputsGenerator {
         return () => observer.next(element.value as TInput);
       case TimelineElementType.Completion:
         return () => observer.complete();
+      case TimelineElementType.Error:
+        return () => observer.error(element.value);
       default:
         throw new Error('Unknown element type');
     }

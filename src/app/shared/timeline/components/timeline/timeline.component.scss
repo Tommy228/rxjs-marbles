@@ -6,6 +6,7 @@
 
 $value-size: rem.convert(40px);
 $completion-height: rem.convert(50px);
+$error-size: rem.convert(40px);
 $typography: mat.define-typography-config();
 
 .canvas {
@@ -134,5 +135,27 @@ $typography: mat.define-typography-config();
       calc(#{$value-size} / 1.5),
       calc(#{$completion-height} / 1.5)
     );
+  }
+}
+
+.timeline-error {
+  @mixin timeline-error-size($err-size) {
+    width: $err-size;
+    height: $err-size;
+    top: calc(50% - #{$err-size} / 2);
+
+    --timeline-error-size: #{$err-size};
+  }
+
+  display: block;
+  position: absolute;
+
+  @include timeline-error-size($error-size);
+
+  left: 0;
+  z-index: 3;
+
+  @media screen and (max-width: breakpoints.$main-breakpoint) {
+    @include timeline-error-size(calc(#{$error-size} / 1.5));
   }
 }
