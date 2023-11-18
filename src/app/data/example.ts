@@ -9,10 +9,18 @@ export type ExampleInput<TInput> =
       t: number;
       x: TInput;
       c?: undefined;
+      e?: undefined;
     }
   | {
       t: number;
       c: true;
+      e?: undefined;
+    }
+  | {
+      t: number;
+      x?: unknown;
+      c?: undefined;
+      e: true;
     };
 
 /**

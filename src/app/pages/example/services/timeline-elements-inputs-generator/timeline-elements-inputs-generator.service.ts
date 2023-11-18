@@ -35,20 +35,37 @@ export class TimelineElementsInputsGenerator {
     input: ExampleInput<UnpackedArray<unknown>>[],
     colorsMap: IColorsMap,
   ): TimelineElement[] {
-    return input.map((el, index) =>
-      el.c === true
-        ? {
-            type: TimelineElementType.Completion,
-            id: index,
-            frame: el.t,
-          }
-        : {
-            type: TimelineElementType.Value,
-            id: index,
-            value: el.x,
-            frame: el.t,
-            color: colorsMap.add(el.x),
-          },
-    );
+    return input.map((el, index) => this.getElement(el, index, colorsMap));
+  }
+
+  private getElement<U>(
+    el: ExampleInput<U>,
+    index: number,
+    colorsMap: IColorsMap,
+  ): TimelineElement {
+    if (el.c === true) {
+      return {
+        type: TimelineElementType.Completion,
+        id: index,
+        frame: el.t,
+      };
+    }
+
+    if (el.e === true) {
+      return {
+        type: TimelineElementType.Error,
+        id: index,
+        value: el.x,
+        frame: el.t,
+      };
+    }
+
+    return {
+      type: TimelineElementType.Value,
+      id: index,
+      value: el.x,
+      frame: el.t,
+      color: colorsMap.add(el.x),
+    };
   }
 }

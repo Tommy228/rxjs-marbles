@@ -6,6 +6,7 @@ import { transformationExamples } from './examples/transformation-examples';
 import { conditionalExamples } from './examples/conditional-examples';
 import { combinationExamples } from './examples/combination-examples';
 import { utilityExamples } from './examples/utility-examples';
+import { errorHandlingExamples } from './examples/error-handling-examples';
 
 export class ExampleCategory {
   readonly examples: readonly Example<unknown[], unknown>[] = Object.freeze(
@@ -24,6 +25,7 @@ export const categories: ExampleCategory[] = [
   new ExampleCategory('Combination', combinationExamples),
   new ExampleCategory('Conditional', conditionalExamples),
   new ExampleCategory('Creation', creationExamples),
+  new ExampleCategory('Error Handling', errorHandlingExamples),
   new ExampleCategory('Filtering', filteringExamples),
   new ExampleCategory('Transformations', transformationExamples),
   new ExampleCategory('Utility', utilityExamples),

@@ -56,6 +56,18 @@
           [cdkDragFreeDragPosition]="getForcedDragPosition(element)!"
         />
       }
+
+      @if (element | guardType: isError; as errorElement) {
+        <app-timeline-error
+          class="timeline-error"
+          cdkDrag
+          [cdkDragDisabled]="!isDraggable"
+          [cdkDragLockAxis]="'x'"
+          [cdkDragBoundary]="timelineLine"
+          (cdkDragMoved)="onDragMoved($event, errorElement)"
+          [cdkDragFreeDragPosition]="getForcedDragPosition(element)!"
+        />
+      }
     }
   </div>
 

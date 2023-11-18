@@ -1,0 +1,27 @@
+@use 'sass-rem' as rem;
+
+.timeline-error {
+  right: var(--timeline-error-size);
+  top: var(--timeline-error-size);
+  width: var(--timeline-error-size);
+  height: var(--timeline-error-size);
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    position: absolute;
+    left: calc(50%);
+    content: ' ';
+    height: var(--timeline-error-size);
+    width: rem.convert(3px);
+    background-color: red;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+}

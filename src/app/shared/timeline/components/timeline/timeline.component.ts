@@ -15,6 +15,7 @@ import { CdkDrag, CdkDragMove } from '@angular/cdk/drag-drop';
 import { IColorsMap, TimelineElementColor } from '../../services/colors-map';
 import {
   isCompletion,
+  isError,
   isValue,
   TimelineElement,
   TimelineValueElement,
@@ -27,6 +28,7 @@ import { TimelineCompletionComponent } from '../timeline-completion/timeline-com
 import { TimelineValueComponent } from '../timeline-value/timeline-value.component';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { AngularResizeEventModule } from 'angular-resize-event';
+import { TimelineErrorComponent } from '../timeline-error/timeline-error.component';
 
 @Component({
   selector: 'app-timeline',
@@ -43,6 +45,7 @@ import { AngularResizeEventModule } from 'angular-resize-event';
     TimelineCompletionComponent,
     GuardTypePipe,
     AngularResizeEventModule,
+    TimelineErrorComponent,
   ],
 })
 export class TimelineComponent implements OnInit, OnChanges {
@@ -74,6 +77,8 @@ export class TimelineComponent implements OnInit, OnChanges {
   protected readonly isCompletion = isCompletion;
 
   protected readonly isValue = isValue;
+
+  protected readonly isError = isError;
 
   constructor() {
     this.resizes$
