@@ -212,7 +212,7 @@ const _last = createExample<[number], number>({
 
 const _sample = createExample<[number, string], number>({
   name: 'sample',
-  label: 'sample(y$)',
+  label: 'x$.pipe(sample(y$))',
   description: 'Sample from source when provided observable emits',
   linkToDocumentation:
     'https://www.learnrxjs.io/learn-rxjs/operators/filtering/sample',
@@ -363,7 +363,7 @@ const _takeUntil = createExample<[number, number], number>({
 
 const _takeWhile = createExample<[number], number>({
   name: 'takeWhile',
-  label: 'x$.pipe(takeWhile(x => x.content < 5))',
+  label: 'takeWhile(x => x < 5)',
   description: 'Emit values until provided expression is false.',
   linkToDocumentation:
     'https://www.learnrxjs.io/learn-rxjs/operators/filtering/takewhile',
@@ -382,7 +382,7 @@ const _takeWhile = createExample<[number], number>({
 
 const _throttle = createExample<[number], number>({
   name: 'throttle',
-  label: 'x$.pipe(throttle(x => timer(10 * x.content)))',
+  label: 'throttle(x => timer(10 * x))',
   description:
     'Emit value on the leading edge of an interval, but suppress new values until durationSelector has completed.',
   linkToDocumentation:
@@ -403,7 +403,7 @@ const _throttle = createExample<[number], number>({
 
 const _throttleTime = createExample<[string], string>({
   name: 'throttleTime',
-  label: 'x$.pipe(throttleTime(25))',
+  label: 'throttleTime(25)',
   description: 'Emit first value then ignore for specified duration.',
   linkToDocumentation:
     'https://www.learnrxjs.io/learn-rxjs/operators/filtering/throttletime',
