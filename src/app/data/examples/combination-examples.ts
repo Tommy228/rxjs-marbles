@@ -1,6 +1,7 @@
 import {
   combineLatest,
   concat,
+  forkJoin,
   map,
   merge,
   race,
@@ -57,6 +58,31 @@ const _concat = createExample<[number, number], number>({
     ],
   ],
   apply: ([x$, y$]) => concat(x$, y$),
+});
+
+const _forkJoin = createExample<[string, number], string>({
+  name: 'forkJoin',
+  label: `forkJoin(x$, y$).pipe(
+  map((x, y) => x + y)
+)`,
+  description:
+    'When all observables complete, emit the last emitted value from each.',
+  linkToDocumentation:
+    'https://www.learnrxjs.io/learn-rxjs/operators/combination/forkjoin',
+  inputs: [
+    [
+      { t: 0, x: 'A' },
+      { t: 15, x: 'B' },
+      { t: 50, x: 'C' },
+      { t: 57, c: true },
+    ],
+    [
+      { t: 0, x: 1 },
+      { t: 8, x: 2 },
+      { t: 12, c: true },
+    ],
+  ],
+  apply: ([x$, y$]) => forkJoin([x$, y$]).pipe(map(([x, y]) => x + y)),
 });
 
 const _merge = createExample<[number, number], number>({
@@ -180,6 +206,7 @@ const _zip = createExample<[string, string], string>({
 export const combinationExamples = [
   _combineLatest,
   _concat,
+  _forkJoin,
   _merge,
   _race,
   _startWith,

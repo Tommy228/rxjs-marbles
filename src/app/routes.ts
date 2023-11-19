@@ -34,7 +34,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'from',
+    redirectTo: 'combineLatest',
     pathMatch: 'full',
   },
 ];

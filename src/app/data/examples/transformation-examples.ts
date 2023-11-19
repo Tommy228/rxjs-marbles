@@ -6,6 +6,7 @@ import {
   bufferToggle,
   bufferWhen,
   concatMap,
+  exhaustMap,
   map,
   mergeMap,
   pairwise,
@@ -184,6 +185,34 @@ const _concatMap = createExample<[string, number], string>({
   apply: ([x$, y$]) => x$.pipe(concatMap((x) => y$.pipe(map((y) => x + y)))),
 });
 
+const _exhaustMap = createExample<[string, number], string>({
+  name: 'exhaustMap',
+  label: `x$.pipe(
+  exhaustMap(x => 
+    y$.pipe(
+      map(y => x + y)
+    )
+  )
+)`,
+  description:
+    'Projects each source value to an Observable which is merged in the output Observable only if the previous projected Observable has completed.',
+  linkToDocumentation: 'https://rxjs.dev/api/operators/exhaustMap',
+  inputs: [
+    [
+      { t: 0, x: 'A' },
+      { t: 42, x: 'B' },
+      { t: 55, x: 'C' },
+    ],
+    [
+      { t: 0, x: 1 },
+      { t: 10, x: 2 },
+      { t: 20, x: 3 },
+      { t: 25, c: true },
+    ],
+  ],
+  apply: ([x$, y$]) => x$.pipe(exhaustMap((x) => y$.pipe(map((y) => x + y)))),
+});
+
 const _mergeMap = createExample<[string, number], string>({
   name: 'mergeMap',
   label: `x$.pipe(
@@ -306,6 +335,7 @@ export const transformationExamples: ExampleFactory[] = [
   _bufferToggle,
   _bufferWhen,
   _concatMap,
+  _exhaustMap,
   _mergeMap,
   _map,
   _pairwise,
