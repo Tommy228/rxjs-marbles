@@ -8,14 +8,14 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
+      "executor": "@nx/angular:browser-esbuild",
       "outputs": [
         "{options.outputPath}"
       ],
       "options": {
         "outputPath": "dist/rxjs-marbles",
         "index": "./src/index.html",
-        "browser": "./src/main.ts",
+        "main": "./src/main.ts",
         "polyfills": [
           "zone.js"
         ],
@@ -67,7 +67,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@nx/angular:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "rxjs-marbles:build:production"
@@ -79,7 +79,7 @@
       "defaultConfiguration": "development"
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@nx/angular:extract-i18n",
       "options": {
         "buildTarget": "rxjs-marbles:build"
       }
