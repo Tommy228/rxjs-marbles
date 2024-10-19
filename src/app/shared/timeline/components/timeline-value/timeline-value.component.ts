@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-timeline-value',
@@ -8,6 +8,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   standalone: true,
 })
 export class TimelineValueComponent<TValue> {
-  @Input({ required: true }) value?: TValue;
-  @Input() isDraggable?: boolean | null = true;
+  readonly value = input.required<TValue>();
+  readonly isDraggable = input(true);
 }

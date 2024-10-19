@@ -1,4 +1,4 @@
-import { Directive, inject, Input, signal } from '@angular/core';
+import { Directive, inject, input } from '@angular/core';
 import { ExpandableContentComponent } from '../expandable-content/expandable-content.component';
 import { Event as RouterEvent, NavigationEnd, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -9,12 +9,9 @@ import { ExampleCategory } from '../../../../data/example-categories';
   standalone: true,
 })
 export class AutoExpandCategoryDirective {
-  private readonly $category = signal<ExampleCategory | undefined>(undefined);
-
-  @Input('appAutoExpandCategory')
-  set category(category: ExampleCategory) {
-    this.$category.set(category);
-  }
+  readonly category = input.required<ExampleCategory>({
+    alias: 'appAutoExpandCategory',
+  });
 
   private readonly expandableContent = inject(ExpandableContentComponent);
 
@@ -37,7 +34,7 @@ export class AutoExpandCategoryDirective {
   }
 
   private shouldExpand(url: string): boolean {
-    const category = this.$category();
+    const category = this.category();
     if (category == null) {
       return false;
     }

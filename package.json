@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "format": "nx format:write"
   },
   "private": true,
   "dependencies": {
@@ -29,8 +30,7 @@
     "ngxtension": "^4.0.0",
     "rxjs": "~7.8.0",
     "sass-rem": "^4.0.0",
-    "tslib": "^2.3.0",
-    "zone.js": "~0.14.3"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~18.2.0",

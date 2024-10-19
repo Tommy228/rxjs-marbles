@@ -12,7 +12,7 @@ import {
   TimelineElementType,
   TimelineValueElement,
 } from './timeline-element';
-import { ColorsMap, IColorsMap, TimelineElementColor } from '../../services/colors-map';
+import { ColorsMap, TimelineElementColor } from '../../services/colors-map';
 import { GuardTypePipe } from '../../pipes/guard-type/guard-type-pipe';
 import { CdkDrag, CdkDragMove, DragDropModule } from '@angular/cdk/drag-drop';
 import { fakeAsync, waitForAsync } from '@angular/core/testing';
@@ -49,7 +49,7 @@ describe('TimelineComponent', () => {
         hostProps: {
           elements: [],
           maxFrames: 10,
-          colorsMap: createSpyObject(ColorsMap)
+          colorsMap: createSpyObject(ColorsMap),
         },
       }
     );

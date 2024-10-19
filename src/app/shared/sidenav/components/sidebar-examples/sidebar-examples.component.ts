@@ -1,4 +1,4 @@
-import { Component, Input, TrackByFunction } from '@angular/core';
+import { Component, input, TrackByFunction } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Example } from '../../../../data/example';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -12,8 +12,7 @@ import { MatListModule } from '@angular/material/list';
   styleUrl: './sidebar-examples.component.scss',
 })
 export class SidebarExamplesComponent {
-  @Input({ required: true }) examples: readonly Example<unknown[], unknown>[] =
-    [];
+  readonly examples = input.required<readonly Example<unknown[], unknown>[]>();
 
   protected readonly trackByExampleName: TrackByFunction<
     Example<unknown[], unknown>
