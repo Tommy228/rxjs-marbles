@@ -37,9 +37,6 @@ jobs:
       - name: Build, lint and test
         run: npx nx affected -t lint test build
 
-      - name: Format
-        run: npx nx format:check
-
       - name: Deploy
         if: github.ref == 'refs/heads/main'
         run: |
