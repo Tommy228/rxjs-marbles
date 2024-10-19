@@ -15,15 +15,18 @@ describe('SidebarExampleComponent', () => {
 
   beforeEach(() => {
     MockBuilder(SidebarExamplesComponent, MatListModule);
-    spectator = createComponent();
-    spectator.setInput('examples', [
-      {
-        name: 'filter',
-      } as Example<unknown[], unknown>,
-      {
-        name: 'debounceTime',
-      } as Example<unknown[], unknown>,
-    ]);
+    spectator = createComponent({
+      props: {
+        examples: [
+          {
+            name: 'filter',
+          } as Example<unknown[], unknown>,
+          {
+            name: 'debounceTime',
+          } as Example<unknown[], unknown>,
+        ]
+      }
+    });
   });
 
   it('should create', () => {

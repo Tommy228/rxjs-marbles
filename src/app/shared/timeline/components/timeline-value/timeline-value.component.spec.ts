@@ -9,7 +9,11 @@ describe('TimelineValueComponent', () => {
   );
 
   beforeEach(() => {
-    spectator = createComponent();
+    spectator = createComponent({
+      props: {
+        value: undefined
+      }
+    });
   });
 
   it('should create', () => {
