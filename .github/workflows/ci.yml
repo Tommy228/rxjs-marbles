@@ -40,7 +40,6 @@ jobs:
       - name: Deploy
         if: github.ref == 'refs/heads/main'
         run: |
-          cp dist/rxjs-marbles/index.html dist/rxjs-marbles/404.html
           git config --global user.name "${GITHUB_ACTOR}"
           git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           npx nx affected -t deploy

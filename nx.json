@@ -52,5 +52,6 @@
       "unitTestRunner": "jest"
     }
   },
-  "defaultProject": "rxjs-marbles"
+  "defaultProject": "rxjs-marbles",
+  "nxCloudId": "671404553484636275eff498"
 }
