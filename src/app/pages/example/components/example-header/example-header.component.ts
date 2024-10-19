@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CurrentExampleProviderService } from '../../services/current-example-provider/current-example-provider.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -12,9 +12,7 @@ import { MatDividerModule } from '@angular/material/divider';
   imports: [MatDividerModule, MatButtonModule],
 })
 export class ExampleHeaderComponent {
-  constructor(
-    private readonly currentExampleProvider: CurrentExampleProviderService,
-  ) {}
+  private readonly currentExampleProvider = inject(CurrentExampleProviderService);
 
   protected readonly currentExample$ =
     this.currentExampleProvider.$currentExample;

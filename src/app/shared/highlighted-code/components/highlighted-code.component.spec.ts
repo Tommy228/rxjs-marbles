@@ -12,7 +12,11 @@ describe('HighlightedCodeComponent', () => {
   });
 
   beforeEach(() => {
-    spectator = createComponent();
+    spectator = createComponent({
+      props: {
+        code: 'alert("Hello, World!");',
+      }
+    });
   });
 
   it('should create', () => {

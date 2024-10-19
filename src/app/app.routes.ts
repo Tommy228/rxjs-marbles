@@ -1,3 +1,5 @@
+import { Route } from '@angular/router';
+
 import { inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -26,7 +28,7 @@ const canActivate: CanActivateFn = async (route: ActivatedRouteSnapshot) => {
   return true;
 };
 
-export const routes: Routes = [
+export const appRoutes: Routes = [
   {
     path: ':id',
     canActivate: [canActivate],
@@ -38,3 +40,4 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
 ];
+

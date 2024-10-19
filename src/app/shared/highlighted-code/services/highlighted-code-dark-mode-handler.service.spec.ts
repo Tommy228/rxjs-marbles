@@ -5,7 +5,7 @@ import {
   SpectatorService,
   SpyObject,
 } from '@ngneat/spectator/jest';
-import { HighlightLibrary, HighlightLoader } from 'ngx-highlightjs';
+import { HighlightLoader } from 'ngx-highlightjs';
 import { of } from 'rxjs';
 import { signal, WritableSignal } from '@angular/core';
 import { DarkModeService } from '../../dark-mode/dark-mode.service';
@@ -36,24 +36,24 @@ describe('HighlightedCodeDarkModeHandler', () => {
 
   describe('autoSwitchDarkMode', () => {
     it('should set dark theme when dark mode is enabled', () => {
-      const ready = of({} as HighlightLibrary);
+      const ready = Promise.resolve({})
       Object.assign(hljsLoader, { ready });
       $isDarkMode.set(true);
       spectator.service.autoSwitchDarkMode();
       TestBed.flushEffects();
       expect(hljsLoader.setTheme).toHaveBeenCalledExactlyOnceWith(
-        'assets/highlightjs/styles/github-dark.css',
+        'highlightjs/styles/github-dark.css',
       );
     });
 
     it('should set light theme when dark mode is disabled', () => {
-      const ready = of({} as HighlightLibrary);
+      const ready = Promise.resolve({})
       Object.assign(hljsLoader, { ready });
       $isDarkMode.set(false);
       spectator.service.autoSwitchDarkMode();
       TestBed.flushEffects();
       expect(hljsLoader.setTheme).toHaveBeenCalledExactlyOnceWith(
-        'assets/highlightjs/styles/github.css',
+        'highlightjs/styles/github.css',
       );
     });
 

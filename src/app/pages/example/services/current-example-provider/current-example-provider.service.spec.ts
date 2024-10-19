@@ -25,19 +25,17 @@ describe('CurrentExampleProviderService', () => {
     apply: ([input]) => input,
   };
 
-  const createService = createServiceFactory({
-    service: CurrentExampleProviderService,
-    providers: [
-      mockProvider(ExamplesProvider, {
-        getByName: jest.fn().mockReturnValue(undefined),
-      }),
-    ],
-  });
+  const createService = createServiceFactory(CurrentExampleProviderService);
 
   beforeEach(() => {
     params = new Subject<Params>();
     spectator = createService({
-      providers: [mockProvider(ActivatedRoute, { params })],
+      providers: [
+        mockProvider(ActivatedRoute, { params }),
+        mockProvider(ExamplesProvider, {
+          getByName: jest.fn().mockReturnValue(undefined),
+        }),
+      ],
     });
     examplesProvider = spectator.inject(ExamplesProvider);
   });

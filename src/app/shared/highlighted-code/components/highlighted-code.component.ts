@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, Input } from '@angular/core';
 import { Highlight } from 'ngx-highlightjs';
 
 @Component({
@@ -10,9 +10,7 @@ import { Highlight } from 'ngx-highlightjs';
   imports: [Highlight],
 })
 export class HighlightedCodeComponent {
-  @Input({ required: true }) code?: string;
+  readonly code = input.required<string>();
 
-  get isMultiline(): boolean {
-    return this.code?.includes('\n') ?? false;
-  }
+  protected readonly isMultiline = computed<boolean>(() => this.code().includes('\n'));
 }

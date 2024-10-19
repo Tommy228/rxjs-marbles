@@ -38,13 +38,13 @@ export class GithubLinkComponent {
     const domSanitizer = inject(DomSanitizer);
     matIconRegistry.addSvgIcon(
       this.blackIcon,
-      domSanitizer.bypassSecurityTrustResourceUrl('assets/github-mark.svg'),
+      domSanitizer.bypassSecurityTrustResourceUrl('github-mark.svg'),
       { viewBox: '0 0 98 96' },
     );
     matIconRegistry.addSvgIcon(
       this.whiteIcon,
       domSanitizer.bypassSecurityTrustResourceUrl(
-        'assets/github-mark-white.svg',
+        'github-mark-white.svg',
       ),
       { viewBox: '0 0 98 96' },
     );

@@ -2,7 +2,7 @@
 @use '../../../../../../node_modules/@angular/material/index' as mat;
 @use '../../../../../sass/themes' as themes;
 
-$typography: mat.define-typography-config();
+$typography: mat.m2-define-typography-config();
 
 :host {
   display: block;
@@ -29,13 +29,13 @@ $typography: mat.define-typography-config();
   }
 
   &__sub-item {
-    @include mat.typography-level($typography, 'body-1');
+    @include mat.m2-typography-level($typography, 'body-1');
     @include themes.get-foreground-color-property(color, text);
   }
 
   &__item {
     @include themes.get-foreground-color-property(color, text);
-    @include mat.typography-level($typography, 'headline-6');
+    @include mat.m2-typography-level($typography, 'headline-6');
 
     padding: 0;
     margin: rem.convert(10px) 0;

@@ -4,7 +4,7 @@
 
 RxJS Marbles is a website that helps you see and learn about RxJS operators in an interactive way.
 
-It is a rewrite of the [rxmarbles](https://github.com/staltz/rxmarbles) project, which has not been maintained since 2021. 
+It is a rewrite of the [rxmarbles](https://github.com/staltz/rxmarbles) project, which has not been maintained since 2021.
 
 ## Features
 

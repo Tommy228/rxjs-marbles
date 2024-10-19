@@ -3,6 +3,7 @@ import { HighlightLoader } from 'ngx-highlightjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { HighlightJsThemes } from '../provide-highlighted-code';
 import { DarkModeService } from '../../dark-mode/dark-mode.service';
+import { fromPromise } from 'rxjs/internal/observable/innerFrom';
 
 /**
  * Service for handling the automatic switching of dark and light themes for highlighted code.
@@ -17,7 +18,7 @@ export class HighlightedCodeDarkModeHandler {
   private readonly injector = inject(EnvironmentInjector);
 
   autoSwitchDarkMode(): void {
-    const $ready = toSignal(this.hljsLoader.ready, { injector: this.injector });
+    const $ready = toSignal(fromPromise(this.hljsLoader.ready), { injector: this.injector });
     effect(
       () => {
         const ready = $ready();

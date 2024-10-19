@@ -3,7 +3,7 @@
 @use '../../../../../../node_modules/@angular/material/index' as mat;
 @use '../../../../../sass/breakpoints' as breakpoints;
 
-$typography: mat.define-typography-config();
+$typography: mat.m2-define-typography-config();
 
 .timelines-container {
   @include mat.elevation(3);
@@ -29,16 +29,16 @@ $typography: mat.define-typography-config();
     width: 100%;
     height: 100%;
 
-    $typography: mat.define-typography-config();
+    $typography: mat.m2-define-typography-config();
 
-    @include mat.typography-level($typography, 'headline-5');
+    @include mat.m2-typography-level($typography, 'headline-5');
 
     @media screen and (max-width: breakpoints.$main-breakpoint) {
-      @include mat.typography-level($typography, 'headline-6');
+      @include mat.m2-typography-level($typography, 'headline-6');
     }
 
     @media screen and (max-width: breakpoints.$tiny-breakpoint) {
-      @include mat.typography-level($typography, 'body-1');
+      @include mat.m2-typography-level($typography, 'body-1');
     }
   }
 }

@@ -9,16 +9,18 @@ import { utilityExamples } from './examples/utility-examples';
 import { errorHandlingExamples } from './examples/error-handling-examples';
 
 export class ExampleCategory {
-  readonly examples: readonly Example<unknown[], unknown>[] = Object.freeze(
-    this.exampleFactories.map((factory) =>
-      factory((x) => x as Example<unknown[], unknown>),
-    ),
-  );
+  readonly examples: readonly Example<unknown[], unknown>[];
 
   constructor(
     public readonly name: string,
     private readonly exampleFactories: ExampleFactory[],
-  ) {}
+  ) {
+    this.examples = Object.freeze(
+      this.exampleFactories.map((factory) =>
+        factory((x) => x as Example<unknown[], unknown>),
+      ),
+    );
+  }
 }
 
 export const categories: ExampleCategory[] = [
