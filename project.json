@@ -112,9 +112,6 @@
     },
     "deploy": {
       "executor": "nx-github-pages:deploy",
-      "options": {
-        "remote": "rxjsmarbles.dev"
-      },
       "dependsOn": [
         "build"
       ]

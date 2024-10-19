@@ -1,8 +1,5 @@
 name: CI
 
-env:
-  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-
 on:
   push:
     branches:
@@ -13,6 +10,9 @@ on:
 permissions:
   actions: read
   contents: read
+
+env:
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 jobs:
   main:
@@ -32,6 +32,7 @@ jobs:
           cache: 'npm'
 
       - run: npm ci
+
       - uses: nrwl/nx-set-shas@v4
 
       - name: Build, lint and test
