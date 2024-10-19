@@ -17,6 +17,10 @@ permissions:
 jobs:
   main:
     runs-on: ubuntu-latest
+    permissions:
+      # Used to update docs site
+      contents: write
+      pages: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -30,4 +34,14 @@ jobs:
       - run: npm ci
       - uses: nrwl/nx-set-shas@v4
 
-      - run: npx nx affected -t lint test build deploy
+      - name: Build, lint and test
+        run: npx nx affected -t lint test build
+
+      - name: Deploy
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          npx nx affected -t deploy
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -74,10 +74,13 @@ describe('SidebarComponent', () => {
   describe('search', () => {
     const inputId = '#operator-search';
 
-    const getInput = () => spectator.query<HTMLInputElement>(inputId)!;
+    const getInput = () => spectator.query<HTMLInputElement>(inputId);
 
     beforeEach(() => {
-      getInput().value = 'filter';
+      const input = getInput();
+      if (input != null) {
+        input.value = 'filter';
+      }
       const event = new KeyboardEvent('keyup');
       jest.spyOn(event, 'target', 'get').mockReturnValue(getInput());
       spectator.triggerEventHandler(inputId, 'keyup', event);

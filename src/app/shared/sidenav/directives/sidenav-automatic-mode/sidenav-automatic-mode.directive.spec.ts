@@ -35,7 +35,10 @@ describe('SidenavAutomaticModeDirective', () => {
         }),
       ],
     });
-    matSideNav = spectator.query(MatSidenav)!;
+    const matSideNavElement = spectator.query(MatSidenav);
+    if (matSideNavElement != null) {
+      matSideNav = matSideNavElement;
+    }
   });
 
   it('should create', () => {

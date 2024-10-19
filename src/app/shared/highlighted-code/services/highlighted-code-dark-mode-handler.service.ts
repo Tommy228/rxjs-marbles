@@ -1,9 +1,10 @@
-import { effect, EnvironmentInjector, inject, Injectable } from '@angular/core';
+import { effect, inject, Injectable, Injector, Signal, untracked } from '@angular/core';
 import { HighlightLoader } from 'ngx-highlightjs';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { HighlightJsThemes } from '../provide-highlighted-code';
 import { DarkModeService } from '../../dark-mode/dark-mode.service';
 import { fromPromise } from 'rxjs/internal/observable/innerFrom';
+import { map } from 'rxjs/operators';
+import { toLazySignal } from 'ngxtension/to-lazy-signal';
 
 /**
  * Service for handling the automatic switching of dark and light themes for highlighted code.
@@ -11,29 +12,30 @@ import { fromPromise } from 'rxjs/internal/observable/innerFrom';
  */
 @Injectable({ providedIn: 'root' })
 export class HighlightedCodeDarkModeHandler {
-  private readonly isDarkMode$ = inject(DarkModeService).$isDarkMode;
+  private readonly isDarkMode = inject(DarkModeService).$isDarkMode;
 
   private readonly hljsLoader = inject(HighlightLoader);
 
-  private readonly injector = inject(EnvironmentInjector);
+  private readonly injector = inject(Injector);
+
+  private readonly ready: Signal<boolean | undefined> = toLazySignal(
+    fromPromise(this.hljsLoader.ready).pipe(map(() => true)),
+    { initialValue: false }
+  );
 
   autoSwitchDarkMode(): void {
-    const $ready = toSignal(fromPromise(this.hljsLoader.ready), { injector: this.injector });
     effect(
       () => {
-        const ready = $ready();
-        if (ready == null) {
+        const ready = this.ready();
+        if (!ready) {
           return;
         }
-
-        const theme = this.isDarkMode$()
+        const theme = this.isDarkMode()
           ? HighlightJsThemes.dark
           : HighlightJsThemes.light;
-        this.hljsLoader.setTheme(theme);
+        untracked(() => this.hljsLoader.setTheme(theme));
       },
-      {
-        injector: this.injector,
-      },
+      { injector: this.injector }
     );
   }
 }

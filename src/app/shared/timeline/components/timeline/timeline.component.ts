@@ -2,11 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
-  Input,
+  input,
   OnChanges,
   OnInit,
-  Output,
+  output,
   signal,
   SimpleChanges,
   ViewChild,
@@ -52,20 +51,20 @@ export class TimelineComponent implements OnInit, OnChanges {
   @ViewChild('timelineLine', { static: true })
   private readonly timelineLine?: ElementRef<HTMLDivElement> | null;
 
-  @Input() isDraggable?: boolean | null = true;
+  readonly isDraggable = input(true);
 
-  @Input({ required: true }) elements?: TimelineElement[];
+  readonly elements = input.required<TimelineElement[]>();
 
-  @Input({ required: true }) colorsMap?: IColorsMap;
+  readonly colorsMap = input.required<IColorsMap>();
 
-  @Input({ required: true }) maxFrames?: number;
+  readonly maxFrames = input.required<number>();
 
-  @Input({ required: true }) hasName?: boolean;
+  readonly hasName = input.required<boolean>();
 
-  @Input() name?: string | null;
+  readonly name = input<string | null>();
 
-  @Output() elementsChange = new EventEmitter<TimelineElement[]>();
-
+  readonly elementsChange = output<TimelineElement[]>();
+  
   private readonly $initialFramePerId = signal<
     Record<number, number | undefined>
   >({});
@@ -100,7 +99,7 @@ export class TimelineComponent implements OnInit, OnChanges {
   protected getElementColor<T>(
     element: TimelineValueElement<T>,
   ): TimelineElementColor {
-    return this.colorsMap?.get(element.value) ?? TimelineElementColor.Color1;
+    return this.colorsMap().get(element.value) ?? TimelineElementColor.Color1;
   }
 
   /**
@@ -123,7 +122,7 @@ export class TimelineComponent implements OnInit, OnChanges {
     }
 
     const { x } = $event.source.getFreeDragPosition();
-    const newFrame = (x / lineWidthPixels) * this.maxFrames!;
+    const newFrame = (x / lineWidthPixels) * this.maxFrames();
     if (newFrame === element.frame) {
       return;
     }
@@ -135,7 +134,7 @@ export class TimelineComponent implements OnInit, OnChanges {
       [element.id]: undefined,
     }));
 
-    this.elementsChange.emit(this.elements ?? []);
+    this.elementsChange.emit(this.elements() ?? []);
   }
 
   protected onResize(): void {
@@ -161,7 +160,7 @@ export class TimelineComponent implements OnInit, OnChanges {
     if (frame == null) {
       return null;
     }
-    const x = (frame / this.maxFrames!) * lineWidthPixels;
+    const x = (frame / this.maxFrames()) * lineWidthPixels;
     return { x, y: 0 };
   }
 
@@ -176,7 +175,7 @@ export class TimelineComponent implements OnInit, OnChanges {
 
   private updateElementsInitialFrame(): void {
     this.$initialFramePerId.set(
-      fromPairs(this.elements?.map(({ id, frame }) => [id, frame])),
+      fromPairs(this.elements().map(({ id, frame }) => [id, frame])),
     );
   }
 }

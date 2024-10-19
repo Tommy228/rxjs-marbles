@@ -1,5 +1,3 @@
-import { Route } from '@angular/router';
-
 import { inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,

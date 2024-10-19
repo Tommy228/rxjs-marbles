@@ -11,7 +11,7 @@ import { waitForAsync } from '@angular/core/testing';
 
 describe('AutoExpandCategoryDirective', () => {
   let spectator: SpectatorDirective<AutoExpandCategoryDirective>;
-  let expandableContent: ExpandableContentComponent;
+  let expandableContent: ExpandableContentComponent | undefined;
   let router: Router;
   let ngZone: NgZone;
 
@@ -53,8 +53,11 @@ describe('AutoExpandCategoryDirective', () => {
       },
     );
 
-    expandableContent = spectator.query(ExpandableContentComponent)!;
-    jest.spyOn(expandableContent, 'setOpen');
+    const expandableContentElement = spectator.query(ExpandableContentComponent);
+    if (expandableContentElement) {
+      expandableContent = expandableContentElement
+      jest.spyOn(expandableContent, 'setOpen');
+    }
     router = spectator.inject(Router);
     ngZone = spectator.inject(NgZone);
   });
@@ -66,7 +69,7 @@ describe('AutoExpandCategoryDirective', () => {
   it('should open the expandable content when the current route matches an example', waitForAsync(() => {
     ngZone.run(() => router.navigateByUrl('/filter'));
     spectator.fixture.whenStable().then(() => {
-      expect(expandableContent.setOpen).toHaveBeenCalledExactlyOnceWith(
+      expect(expandableContent?.setOpen).toHaveBeenCalledExactlyOnceWith(
         true,
         false,
       );
@@ -76,7 +79,7 @@ describe('AutoExpandCategoryDirective', () => {
   it('should not open the expandable content when the current route does not match an example', waitForAsync(() => {
     ngZone.run(() => router.navigateByUrl('/somewhere'));
     spectator.fixture.whenStable().then(() => {
-      expect(expandableContent.setOpen).not.toHaveBeenCalled();
+      expect(expandableContent?.setOpen).not.toHaveBeenCalled();
     });
   }));
 });

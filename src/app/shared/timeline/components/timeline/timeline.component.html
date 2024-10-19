@@ -3,9 +3,9 @@
   (resized)="onResize()"
   data-timeline
 >
-  @if (hasName) {
+  @if (hasName()) {
     <div class="timeline__name">
-      {{ name }}
+      {{ name() }}
     </div>
   }
 
@@ -29,15 +29,15 @@
       ></line>
     </svg>
 
-    @for (element of elements ?? []; track element) {
+    @for (element of elements(); track element) {
       @if (element | guardType: isValue; as valueElement) {
         <app-timeline-value
           class="timeline-value"
           [ngClass]="'timeline-value--' + getElementColor(valueElement)"
           [value]="valueElement.value"
-          [isDraggable]="isDraggable ?? true"
+          [isDraggable]="isDraggable()"
           cdkDrag
-          [cdkDragDisabled]="!isDraggable"
+          [cdkDragDisabled]="!isDraggable()"
           [cdkDragLockAxis]="'x'"
           [cdkDragBoundary]="timelineLine"
           (cdkDragMoved)="onDragMoved($event, valueElement)"
@@ -49,7 +49,7 @@
         <app-timeline-completion
           class="timeline-completion"
           cdkDrag
-          [cdkDragDisabled]="!isDraggable"
+          [cdkDragDisabled]="!isDraggable()"
           [cdkDragLockAxis]="'x'"
           [cdkDragBoundary]="timelineLine"
           (cdkDragMoved)="onDragMoved($event, completionElement)"

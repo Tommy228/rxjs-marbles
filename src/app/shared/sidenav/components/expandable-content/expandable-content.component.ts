@@ -1,14 +1,4 @@
-import {
-  Component,
-  computed,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  Signal,
-  signal,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, computed, model, Signal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   animate,
@@ -60,41 +50,30 @@ import { MatIconModule } from '@angular/material/icon';
     ]),
   ],
 })
-export class ExpandableContentComponent implements OnChanges {
-  @Input() open: boolean = false;
-
-  @Output() openChange = new EventEmitter<boolean>();
+export class ExpandableContentComponent {
+  readonly open = model(false);
 
   protected readonly $animationDisabled = signal(true);
-
-  private readonly $open = signal(this.open);
 
   private readonly $animationInProgress = signal(false);
 
   protected readonly $openCloseAnimationState: Signal<'open' | 'close'> =
-    computed(() => (this.$open() ? 'open' : 'close'));
+    computed(() => (this.open() ? 'open' : 'close'));
 
   protected readonly $iconRotationAnimationState: Signal<
     'pointing-bottom' | 'normal'
-  > = computed(() => (this.$open() ? 'pointing-bottom' : 'normal'));
-
-  ngOnChanges({ open }: SimpleChanges): void {
-    if (open) {
-      this.$open.set(this.open);
-    }
-  }
+  > = computed(() => (this.open() ? 'pointing-bottom' : 'normal'));
 
   setOpen(open: boolean, animate = true): void {
-    if (this.$animationInProgress() || this.$open() === open) {
+    if (this.$animationInProgress() || this.open() === open) {
       return;
     }
     this.$animationDisabled.set(!animate);
-    this.$open.set(open);
-    this.openChange.emit(open);
+    this.open.set(open);
   }
 
   toggle(animate = true): void {
-    this.setOpen(!this.$open(), animate);
+    this.setOpen(!this.open(), animate);
   }
 
   protected animationStarted(): void {

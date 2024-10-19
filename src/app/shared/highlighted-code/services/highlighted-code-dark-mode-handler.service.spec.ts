@@ -6,10 +6,9 @@ import {
   SpyObject,
 } from '@ngneat/spectator/jest';
 import { HighlightLoader } from 'ngx-highlightjs';
-import { of } from 'rxjs';
 import { signal, WritableSignal } from '@angular/core';
 import { DarkModeService } from '../../dark-mode/dark-mode.service';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, tick } from '@angular/core/testing';
 
 describe('HighlightedCodeDarkModeHandler', () => {
   let spectator: SpectatorService<HighlightedCodeDarkModeHandler>;
@@ -19,7 +18,11 @@ describe('HighlightedCodeDarkModeHandler', () => {
 
   const createService = createServiceFactory({
     service: HighlightedCodeDarkModeHandler,
-    mocks: [HighlightLoader],
+    providers: [
+      mockProvider(HighlightLoader, {
+        ready: Promise.resolve({}),
+      }),
+    ],
   });
 
   beforeEach(() => {
@@ -35,34 +38,30 @@ describe('HighlightedCodeDarkModeHandler', () => {
   });
 
   describe('autoSwitchDarkMode', () => {
-    it('should set dark theme when dark mode is enabled', () => {
-      const ready = Promise.resolve({})
-      Object.assign(hljsLoader, { ready });
+    it('should set dark theme when dark mode is enabled', fakeAsync(() => {
       $isDarkMode.set(true);
       spectator.service.autoSwitchDarkMode();
-      TestBed.flushEffects();
+      spectator.flushEffects();
+      tick();
       expect(hljsLoader.setTheme).toHaveBeenCalledExactlyOnceWith(
-        'highlightjs/styles/github-dark.css',
+        'highlightjs/styles/github-dark.css'
       );
-    });
+    }));
 
-    it('should set light theme when dark mode is disabled', () => {
-      const ready = Promise.resolve({})
-      Object.assign(hljsLoader, { ready });
+    it('should set light theme when dark mode is disabled', fakeAsync(() => {
       $isDarkMode.set(false);
       spectator.service.autoSwitchDarkMode();
-      TestBed.flushEffects();
+      spectator.flushEffects();
+      tick();
       expect(hljsLoader.setTheme).toHaveBeenCalledExactlyOnceWith(
-        'highlightjs/styles/github.css',
+        'highlightjs/styles/github.css'
       );
-    });
+    }));
 
     it('should not set theme when library is not ready', () => {
-      const ready = of(undefined);
-      Object.assign(hljsLoader, { ready });
       $isDarkMode.set(true);
       spectator.service.autoSwitchDarkMode();
-      TestBed.flushEffects();
+      spectator.flushEffects();
       expect(hljsLoader.setTheme).not.toHaveBeenCalled();
     });
   });
