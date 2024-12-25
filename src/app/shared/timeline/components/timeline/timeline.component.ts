@@ -3,11 +3,8 @@ import {
   Component,
   ElementRef,
   input,
-  OnChanges,
-  OnInit,
   output,
   signal,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { CdkDrag, CdkDragMove } from '@angular/cdk/drag-drop';
@@ -19,15 +16,16 @@ import {
   TimelineElement,
   TimelineValueElement,
 } from './timeline-element';
-import { debounceTime, Subject } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { debounceTime, merge } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { fromPairs } from 'lodash-es';
 import { GuardTypePipe } from '../../pipes/guard-type/guard-type-pipe';
 import { TimelineCompletionComponent } from '../timeline-completion/timeline-completion.component';
 import { TimelineValueComponent } from '../timeline-value/timeline-value.component';
-import { NgClass, NgFor, NgIf } from '@angular/common';
-import { AngularResizeEventModule } from 'angular-resize-event';
+import { NgClass } from '@angular/common';
 import { TimelineErrorComponent } from '../timeline-error/timeline-error.component';
+import { injectResize } from 'ngxtension/resize';
+import { rxEffect } from 'ngxtension/rx-effect';
 
 @Component({
   selector: 'app-timeline',
@@ -36,18 +34,15 @@ import { TimelineErrorComponent } from '../timeline-error/timeline-error.compone
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NgFor,
-    NgIf,
     TimelineValueComponent,
     CdkDrag,
     NgClass,
     TimelineCompletionComponent,
     GuardTypePipe,
-    AngularResizeEventModule,
     TimelineErrorComponent,
   ],
 })
-export class TimelineComponent implements OnInit, OnChanges {
+export class TimelineComponent {
   @ViewChild('timelineLine', { static: true })
   private readonly timelineLine?: ElementRef<HTMLDivElement> | null;
 
@@ -64,14 +59,12 @@ export class TimelineComponent implements OnInit, OnChanges {
   readonly name = input<string | null>();
 
   readonly elementsChange = output<TimelineElement[]>();
-  
+
   private readonly $initialFramePerId = signal<
     Record<number, number | undefined>
   >({});
 
   private readonly $lineWidthPixels = signal<number | undefined>(undefined);
-
-  private readonly resizes$ = new Subject<void>();
 
   protected readonly isCompletion = isCompletion;
 
@@ -80,24 +73,18 @@ export class TimelineComponent implements OnInit, OnChanges {
   protected readonly isError = isError;
 
   constructor() {
-    this.resizes$
-      .pipe(takeUntilDestroyed(), debounceTime(10))
-      .subscribe(() => this.updatePositionsAfterResize());
-  }
-
-  ngOnInit(): void {
-    this.updateLineWidth();
-    this.updateElementsInitialFrame();
-  }
-
-  ngOnChanges({ elements }: SimpleChanges): void {
-    if (elements) {
-      this.updateElementsInitialFrame();
-    }
+    rxEffect(
+      merge(
+        injectResize({ debounce: 10 }),
+        toObservable(this.elements),
+        toObservable(this.elements).pipe(debounceTime(10))
+      ),
+      () => this.updatePositions()
+    );
   }
 
   protected getElementColor<T>(
-    element: TimelineValueElement<T>,
+    element: TimelineValueElement<T>
   ): TimelineElementColor {
     return this.colorsMap().get(element.value) ?? TimelineElementColor.Color1;
   }
@@ -114,7 +101,7 @@ export class TimelineComponent implements OnInit, OnChanges {
    */
   protected onDragMoved(
     $event: CdkDragMove<void>,
-    element: TimelineElement,
+    element: TimelineElement
   ): void {
     const lineWidthPixels = this.$lineWidthPixels();
     if (lineWidthPixels == null) {
@@ -137,10 +124,6 @@ export class TimelineComponent implements OnInit, OnChanges {
     this.elementsChange.emit(this.elements() ?? []);
   }
 
-  protected onResize(): void {
-    this.resizes$.next();
-  }
-
   /**
    * Retrieves the forced drag position for a given TimelineElement.
    * This is called when the timeline is initialized, and when the timeline is resized.
@@ -150,7 +133,7 @@ export class TimelineComponent implements OnInit, OnChanges {
    * @return {{ x: number; y: number } | null} - The forced drag position, or null if the element has no initial frame.
    */
   protected getForcedDragPosition(
-    element: TimelineElement,
+    element: TimelineElement
   ): { x: number; y: number } | null {
     const lineWidthPixels = this.$lineWidthPixels();
     if (lineWidthPixels == null) {
@@ -164,18 +147,10 @@ export class TimelineComponent implements OnInit, OnChanges {
     return { x, y: 0 };
   }
 
-  private updatePositionsAfterResize(): void {
-    this.updateLineWidth();
-    this.updateElementsInitialFrame();
-  }
-
-  private updateLineWidth(): void {
+  private updatePositions(): void {
     this.$lineWidthPixels.set(this.timelineLine?.nativeElement.offsetWidth);
-  }
-
-  private updateElementsInitialFrame(): void {
     this.$initialFramePerId.set(
-      fromPairs(this.elements().map(({ id, frame }) => [id, frame])),
+      fromPairs(this.elements().map(({ id, frame }) => [id, frame]))
     );
   }
 }

@@ -17,13 +17,19 @@ import { GuardTypePipe } from '../../pipes/guard-type/guard-type-pipe';
 import { CdkDrag, CdkDragMove, DragDropModule } from '@angular/cdk/drag-drop';
 import { fakeAsync, waitForAsync } from '@angular/core/testing';
 import { Subject } from 'rxjs';
-import { ResizedDirective, ResizedEvent } from 'angular-resize-event';
+
+const resizeFn = jest.fn();
+// noinspection JSUnusedGlobalSymbols -- used in the mock
+jest.mock('ngxtension/resize', () => ({
+  injectResize: () => resizeFn(),
+}));
 
 describe('TimelineComponent', () => {
   let spectator: SpectatorHost<TimelineComponent>;
 
   let sideNavOpenedStream: Subject<void>;
   let sideNavClosedStream: Subject<void>;
+  let resize$: Subject<void>;
 
   const createHost = createHostFactory({
     component: TimelineComponent,
@@ -42,9 +48,11 @@ describe('TimelineComponent', () => {
   beforeEach(() => {
     sideNavClosedStream = new Subject();
     sideNavOpenedStream = new Subject();
+    resize$ = new Subject();
+    resizeFn.mockReturnValue(resize$);
 
     spectator = createHost(
-      `<app-timeline [elements]='elements' [maxFrames]='maxFrames' [colorsMap]='colorsMap' [hasName]='false'/>`,
+      `<app-timeline [elements]='elements' [maxFrames]='maxFrames' [colorsMap]='colorsMap' [hasName]='false' />`,
       {
         hostProps: {
           elements: [],
@@ -63,10 +71,9 @@ describe('TimelineComponent', () => {
       return;
     }
     jest.spyOn(timelineLine, 'offsetWidth', 'get').mockReturnValue(width);
-    const resizedDirective = spectator.query(ResizedDirective);
-    resizedDirective?.resized.next(
-      new ResizedEvent({} as DOMRectReadOnly, undefined)
-    );
+    resize$.next();
+    spectator.flushEffects();
+    spectator.detectChanges();
   };
 
   beforeEach(waitForAsync(() => {
@@ -97,6 +104,7 @@ describe('TimelineComponent', () => {
         },
       ] satisfies TimelineElement[],
     });
+    spectator.detectChanges();
   });
 
   it('should create', () => {
@@ -199,8 +207,7 @@ describe('TimelineComponent', () => {
     ).toBe(1);
   });
 
-  // Skipped: waiting for @ngneat/spectator to support output functions
-  it.skip('should not do anything if the width is not set', fakeAsync(() => {
+  it('should not do anything if the width is not set', fakeAsync(() => {
     let output: TimelineElement[] | undefined;
     spectator
       .output('elementsChange')
@@ -213,7 +220,7 @@ describe('TimelineComponent', () => {
     const timelineValuesDragElement = spectator.query(TimelineValueComponent, {
       read: CdkDrag,
     });
-    expect(timelineValuesDragElement).toBeNull();
+    expect(timelineValuesDragElement).not.toBeNull();
     spectator.triggerEventHandler('app-timeline-value', 'cdkDragMoved', {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- checked above
       source: timelineValuesDragElement!,
@@ -226,8 +233,7 @@ describe('TimelineComponent', () => {
     expect(output).toBeUndefined();
   }));
 
-  // Skipped: waiting for @ngneat/spectator to support output functions
-  it.skip('should not do anything if the element has not moved', () => {
+  it('should not do anything if the element has not moved', () => {
     let output: TimelineElement[] | undefined;
     spectator
       .output('elementsChange')
